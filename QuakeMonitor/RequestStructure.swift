@@ -9,7 +9,8 @@
 import Foundation
 
 struct RequestData {
+    let scheme: String
     let baseUrl: String
     let path: String?
-    let query: [URLQueryItem]?
+    let queryItems: [URLQueryItem]?
 }

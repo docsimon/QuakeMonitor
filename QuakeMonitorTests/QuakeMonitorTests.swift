@@ -33,4 +33,15 @@ class QuakeMonitorTests: XCTestCase {
         }
     }
     
+//    func testBuildRequest(){
+//        let vc = EarthquakeViewController()
+//        var queryItems = [URLQueryItem]()
+//        queryItems.append(URLQueryItem(name: "minmag", value: "6"))
+//        queryItems.append(URLQueryItem(name: "limit", value: "20"))
+//        let requestData = RequestData(scheme: "https", baseUrl: "earthquake.usgs.gov", path: "/fdsnws/event/1", query: queryItems)
+//        let client = Client(controllerDelegate: vc, urlRequestData: requestData)
+//
+//
+//    }
+    
 }

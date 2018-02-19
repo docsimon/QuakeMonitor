@@ -16,9 +16,20 @@ class EarthquakeViewModel {
     weak var delegate: EarthquakeModel?
     
     func fetchData(){
-        let requestData = RequestData(baseUrl: "", path: nil, query: nil)
-        let client = Client(controllerDelegate: delegate!, urlRequestData: requestData)
+        var queryItems = [URLQueryItem]()
+        queryItems.append(URLQueryItem(name: "format", value: "geojson"))
+        queryItems.append(URLQueryItem(name: "minmag", value: "6"))
+        queryItems.append(URLQueryItem(name: "limit", value: "20"))
+        let requestData = RequestData(scheme: Constants.Client.scheme, baseUrl: Constants.Client.baseUrl, path: Constants.Client.path, queryItems: queryItems)
         
-        client.fetchJsonData(request: requestData, jsonHandler: nil, completion: nil)
+        if let delegate = delegate {
+            let client = Client(controllerDelegate: delegate, urlRequestData: requestData)
+            
+            client.fetchJsonData(request: requestData, jsonHandler: Parser.parseJson, completion: { earthquakeDictionaryArray in
+                print(earthquakeDictionaryArray)
+            })
+        }else {
+            fatalError("Main view controller not set as delegate !!!")
+        }
     }
 }

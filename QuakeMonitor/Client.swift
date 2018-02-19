@@ -14,6 +14,8 @@ import Foundation
  - Building the endpoint request/url and ensuring their validity
  - Managing all the error related to the connection
 */
+
+typealias EarthquakeClosure = (([Properties]?) -> ())
 class Client {
     
     private let controllerDelegate: EarthquakeModel
@@ -26,32 +28,73 @@ class Client {
     
     // Construct a valid URLRequest
     private func buildRequest(urlStruct: RequestData) -> URLRequest?{
-        let baseUrl = urlStruct.baseUrl        
         var urlComponents = URLComponents()
-        urlComponents.host = baseUrl
+        urlComponents.scheme = urlStruct.scheme
+        urlComponents.host = urlStruct.baseUrl
         
         if let path = urlStruct.path {
             urlComponents.path = path
         }
-        if let query = urlStruct.query {
+        if let queryItems = urlStruct.queryItems {
             urlComponents.queryItems = [URLQueryItem]()
-            urlComponents.queryItems = query
+            urlComponents.queryItems = queryItems
         }
+        
         if let url = urlComponents.url {
             let request = URLRequest(url: url)
+            print("stoka: ", request)
             return request
         }
         
         return nil
     }
     
-    func fetchJsonData(request: RequestData, jsonHandler: (()->())?, completion: (([Earthquake]) -> ())?){
+    func fetchJsonData(request: RequestData, jsonHandler: JsonHandlerClosure?, completion: EarthquakeClosure?){
         
-       // guard let urlRequest = buildRequest(urlStruct: request) else {
-            ErrorManager.displayError(errorTitle: "Generic Error", errorMsg: "Something went wrong", presenting: controllerDelegate)
+        guard let urlRequest = buildRequest(urlStruct: request) else {
+            ErrorManager.displayError(errorTitle: Constants.Errors.urlRequestErrorTitle, errorMsg: Constants.Errors.urlRequestErrorTitle, presenting: controllerDelegate)
             return
-      //  }
+        }
         
-      //  print("OK")
+        // make the request
+      URLSession.shared.dataTask(with: urlRequest, completionHandler: {(data, response, error) in
+            
+            // error checking
+            guard (error == nil) else {
+                
+                ErrorManager.displayError(errorTitle: "Generic Error", errorMsg: (error?.localizedDescription) ?? "Error", presenting: self.controllerDelegate)
+                return
+                
+            }
+            // response checking
+            if let statusCode = (response as? HTTPURLResponse)?.statusCode{
+                guard (self.checkResponseCode(code: statusCode) == true) else {
+                    ErrorManager.displayError(errorTitle: "Generic Error", errorMsg: "Status code: \(String(describing: statusCode))", presenting: self.controllerDelegate)
+                    return
+                }
+            }else {
+                ErrorManager.displayError(errorTitle: "Generic Error", errorMsg: "Status code unknown", presenting: self.controllerDelegate)
+                return
+            }
+            // data checking
+            guard let data = data else {
+                ErrorManager.displayError(errorTitle: "Generic Error", errorMsg: "Error receiving data", presenting: self.controllerDelegate)
+                return
+            }
+                
+        if let jsonHandlerClosure = jsonHandler {
+            jsonHandlerClosure(data, self.controllerDelegate, completion)
+        }else {
+            ErrorManager.displayError(errorTitle: Constants.Errors.jsonHandlerErrorTitle, errorMsg: Constants.Errors.jsonHandlerErrorMsg, presenting: self.controllerDelegate)
+            return
+        }
+        
+        }).resume()
+        
+    }
+    
+   private func checkResponseCode(code: Int) -> Bool {
+        let successCode = [200, 201, 202, 203, 204]
+        return successCode.contains(code)
     }
 }
