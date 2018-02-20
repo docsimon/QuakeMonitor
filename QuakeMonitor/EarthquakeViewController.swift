@@ -13,12 +13,23 @@ class EarthquakeViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var tableView: UITableView!
     
     var earthquakeData: [EarthquakeData]?
-    
+    private let refreshControl = UIRefreshControl()
+    let viewModel = EarthquakeViewModel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        let viewModel = EarthquakeViewModel()
         viewModel.delegate = self
         viewModel.fetchData()
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshEarthquakeData), for: .valueChanged)
+
+    }
+    
+    @objc func refreshEarthquakeData(){
+        viewModel.fetchData()
+    }
+    func stopRefreshing(){
+        refreshControl.endRefreshing()
     }
 }
 
@@ -67,6 +78,7 @@ extension EarthquakeViewController {
         earthquakeData = earthquakes
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            self.stopRefreshing()
         }
     }
 }

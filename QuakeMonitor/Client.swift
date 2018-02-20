@@ -42,7 +42,6 @@ class Client {
         
         if let url = urlComponents.url {
             let request = URLRequest(url: url)
-            print("stoka: ", request)
             return request
         }
         
