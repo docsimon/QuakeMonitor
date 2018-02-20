@@ -19,6 +19,7 @@
 		CA3D5F39203A28C60035ACD9 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D5F38203A28C60035ACD9 /* Parser.swift */; };
 		CA3D5F3B203A2AA40035ACD9 /* ErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D5F3A203A2AA40035ACD9 /* ErrorManager.swift */; };
 		CA3D5F3D203B4DCD0035ACD9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D5F3C203B4DCD0035ACD9 /* Constants.swift */; };
+		CA3D5F41203C44600035ACD9 /* EarthquakeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D5F40203C44600035ACD9 /* EarthquakeTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		CA3D5F38203A28C60035ACD9 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		CA3D5F3A203A2AA40035ACD9 /* ErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorManager.swift; sourceTree = "<group>"; };
 		CA3D5F3C203B4DCD0035ACD9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CA3D5F40203C44600035ACD9 /* EarthquakeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				CA3D5F38203A28C60035ACD9 /* Parser.swift */,
 				CA3D5F3A203A2AA40035ACD9 /* ErrorManager.swift */,
 				CA3D5F3C203B4DCD0035ACD9 /* Constants.swift */,
+				CA3D5F40203C44600035ACD9 /* EarthquakeTableViewCell.swift */,
 			);
 			path = QuakeMonitor;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				CA3D5F37203A0E4F0035ACD9 /* EarthquakeViewModel.swift in Sources */,
 				CA3D5F35203A0DF00035ACD9 /* RequestStructure.swift in Sources */,
 				CA3D5F3D203B4DCD0035ACD9 /* Constants.swift in Sources */,
+				CA3D5F41203C44600035ACD9 /* EarthquakeTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

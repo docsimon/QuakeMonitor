@@ -27,18 +27,6 @@ struct Earthquake: Codable {
 
 class Parser {
    static func parseJson(data: Data, delegate: EarthquakeModel, completion: EarthquakeClosure?){
-//
-//
-//    let features: [String:Any]?
-//
-//    do {
-//        features = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : Any]
-//    }catch {
-//        print("Error")
-//        return
-//    }
-//
-//    print(features)
         let jsonDecoder = JSONDecoder()
         var features: Features? = nil
         do {
