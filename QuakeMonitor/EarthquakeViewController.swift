@@ -45,9 +45,20 @@ extension EarthquakeViewController {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 80
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        if let earthquake = earthquakeData?[indexPath.row]
+        {
+            if let quakeUrl = earthquake.url {
+                UIApplication.shared.open(quakeUrl, options: [:], completionHandler: nil)
+            }else {
+                ErrorManager.displayError(errorTitle: Constants.Errors.urlPageErrorTitle, errorMsg: Constants.Errors.urlPageErrorTitle, presenting: self)
+                return
+            }
+        }
+    }
     
 }
 // Conforming to the ViewModel protocol

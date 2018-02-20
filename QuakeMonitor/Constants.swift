@@ -10,6 +10,10 @@ import Foundation
 
 struct Constants {
     
+    struct Urls {
+        static let website = "https://earthquake.usgs.gov"
+    }
+    
     struct Client {
       static let scheme = "https"
       static let baseUrl = "earthquake.usgs.gov"
@@ -23,7 +27,7 @@ struct Constants {
         static let jsonHandlerErrorMsg = "The Json handler is nil"
         static let urlRequestErrorTitle = "URLRequest Error"
         static let urlRequestErrorMsg = "URLRequest is empty"
-
-        
+        static let urlPageErrorTitle = "No url"
+        static let urlPageErrorMsg = "No web page availbel for this event"
     }
 }

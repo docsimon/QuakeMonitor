@@ -17,6 +17,7 @@ struct EarthquakeData {
     let country: String
     let place: String
     let date: String
+    let url: URL?
 }
 
 class EarthquakeViewModel {
@@ -32,7 +33,7 @@ class EarthquakeViewModel {
     func fetchData(){
         var queryItems = [URLQueryItem]()
         queryItems.append(URLQueryItem(name: "format", value: "geojson"))
-        queryItems.append(URLQueryItem(name: "minmag", value: "6"))
+        queryItems.append(URLQueryItem(name: "minmag", value: "5"))
         queryItems.append(URLQueryItem(name: "limit", value: "20"))
         let requestData = RequestData(scheme: Constants.Client.scheme, baseUrl: Constants.Client.baseUrl, path: Constants.Client.path, queryItems: queryItems)
         
@@ -52,7 +53,25 @@ class EarthquakeViewModel {
         if let data = data {
             let formattedData = data.map { property -> EarthquakeData in
                 let earthquakeData =  property.properties
-                let earthquake = EarthquakeData(magnitude: String(earthquakeData.mag), country: earthquakeData.place, place: earthquakeData.place, date: String(earthquakeData.time))
+                let countrySplit = earthquakeData.place.split(separator: ",")
+                let country: String
+                let place: String
+                if countrySplit.count > 1 {
+                    country = String(countrySplit[1]).trimmingCharacters(in: .whitespacesAndNewlines)
+                    place = String(countrySplit[0]).trimmingCharacters(in: .whitespacesAndNewlines)
+                    
+                }else{
+                    country = String(countrySplit[0]).trimmingCharacters(in: .whitespacesAndNewlines)
+                    place = country
+                }
+                let date = Date(timeIntervalSince1970: TimeInterval(earthquakeData.time)/1000)
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateStyle = .long
+                dateFormatter.timeStyle = .long
+                let url = URL(string: earthquakeData.url)
+               
+                let earthquake = EarthquakeData(magnitude: String(earthquakeData.mag), country: country, place: place, date: dateFormatter.string(from: date), url: url)
+                
                 
                 return earthquake
                 
