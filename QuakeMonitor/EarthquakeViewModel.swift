@@ -72,13 +72,10 @@ class EarthquakeViewModel {
                
                 let earthquake = EarthquakeData(magnitude: String(earthquakeData.mag), country: country, place: place, date: dateFormatter.string(from: date), url: url)
                 
-                
                 return earthquake
-                
             }
             return formattedData
         }
-        
         return nil
     }
 }

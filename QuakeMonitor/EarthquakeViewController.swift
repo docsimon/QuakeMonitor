@@ -35,7 +35,7 @@ class EarthquakeViewController: UIViewController, UITableViewDelegate, UITableVi
 
 extension EarthquakeViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return earthquakeData?.count ?? 1
+        return earthquakeData?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
