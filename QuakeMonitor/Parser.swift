@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias JsonHandlerClosure = (Data, EarthquakeModel, @escaping EarthquakeClosure) -> ()
+typealias JsonHandlerClosure = (Data, @escaping EarthquakeClosure) -> ()
 
 struct Features: Codable {
     let features: [Properties]
@@ -26,7 +26,7 @@ struct Earthquake: Codable {
 }
 
 class Parser {
-   static func parseJson(data: Data, delegate: EarthquakeModel, completion: @escaping EarthquakeClosure){
+   static func parseJson(data: Data, completion: @escaping EarthquakeClosure){
         let jsonDecoder = JSONDecoder()
         var features: Features? = nil
         do {

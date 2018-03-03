@@ -39,7 +39,7 @@ class EarthquakeViewModel {
         let requestData = RequestData(scheme: Constants.Client.scheme, baseUrl: Constants.Client.baseUrl, path: Constants.Client.path, queryItems: queryItems)
         
         if let delegate = delegate {
-            let client = Client(controllerDelegate: delegate, urlRequestData: requestData)
+            let client = Client(urlRequestData: requestData)
             
             client.fetchJsonData(request: requestData, jsonHandler: Parser.parseJson, completion: { earthquakeDictionaryArray, errorData  in
                 

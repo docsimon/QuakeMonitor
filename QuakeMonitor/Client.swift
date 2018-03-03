@@ -18,11 +18,9 @@ import Foundation
 typealias EarthquakeClosure = (([Properties]?, ErrorData?) -> ())
 class Client {
     
-    private let controllerDelegate: EarthquakeModel
     private let urlRequestData: RequestData
     
-    init(controllerDelegate: EarthquakeModel, urlRequestData: RequestData) {
-        self.controllerDelegate = controllerDelegate
+    init(urlRequestData: RequestData) {
         self.urlRequestData = urlRequestData
     }
     
@@ -86,7 +84,7 @@ class Client {
             }
                 
         if let jsonHandlerClosure = jsonHandler {
-            jsonHandlerClosure(data, self.controllerDelegate, completion)
+            jsonHandlerClosure(data, completion)
         }else {
             let errorData = ErrorData(errorTitle: Constants.Errors.jsonHandlerErrorTitle, errorMsg: Constants.Errors.jsonHandlerErrorMsg)
                 completion(nil, errorData)

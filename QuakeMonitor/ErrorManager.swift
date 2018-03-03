@@ -16,7 +16,7 @@ struct ErrorData{
 
 struct ErrorManager {
     
-   static func displayError(errorTitle: String, errorMsg: String?, presenting: EarthquakeModel? ){
+   static func displayError<T>(errorTitle: String, errorMsg: String?, presenting: T? ){
         let alert = UIAlertController(title: errorTitle, message: errorMsg, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         
