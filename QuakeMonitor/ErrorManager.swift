@@ -9,6 +9,11 @@
 import Foundation
 import UIKit
 
+struct ErrorData{
+    let errorTitle: String
+    let errorMsg: String
+}
+
 struct ErrorManager {
     
    static func displayError(errorTitle: String, errorMsg: String?, presenting: EarthquakeModel? ){

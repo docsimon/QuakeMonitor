@@ -15,7 +15,7 @@ import Foundation
  - Managing all the error related to the connection
 */
 
-typealias EarthquakeClosure = (([Properties]?) -> ())
+typealias EarthquakeClosure = (([Properties]?, ErrorData?) -> ())
 class Client {
     
     private let controllerDelegate: EarthquakeModel
@@ -48,10 +48,11 @@ class Client {
         return nil
     }
     
-    func fetchJsonData(request: RequestData, jsonHandler: JsonHandlerClosure?, completion: EarthquakeClosure?){
+    func fetchJsonData(request: RequestData, jsonHandler: JsonHandlerClosure?, completion: @escaping EarthquakeClosure){
         
         guard let urlRequest = buildRequest(urlStruct: request) else {
-            ErrorManager.displayError(errorTitle: Constants.Errors.urlRequestErrorTitle, errorMsg: Constants.Errors.urlRequestErrorTitle, presenting: controllerDelegate)
+            let errorData = ErrorData(errorTitle: Constants.Errors.urlRequestErrorTitle, errorMsg: Constants.Errors.urlRequestErrorTitle)
+            completion(nil, errorData)
             return
         }
         
@@ -60,31 +61,35 @@ class Client {
             
             // error checking
             guard (error == nil) else {
-                
-                ErrorManager.displayError(errorTitle: "Generic Error", errorMsg: (error?.localizedDescription) ?? "Error", presenting: self.controllerDelegate)
+                let errorData = ErrorData(errorTitle: "Generic Error", errorMsg: (error?.localizedDescription) ?? "Error")
+                completion(nil, errorData)
                 return
                 
             }
             // response checking
             if let statusCode = (response as? HTTPURLResponse)?.statusCode{
                 guard (self.checkResponseCode(code: statusCode) == true) else {
-                    ErrorManager.displayError(errorTitle: "Generic Error", errorMsg: "Status code: \(String(describing: statusCode))", presenting: self.controllerDelegate)
+                    let errorData = ErrorData(errorTitle: "Generic Error", errorMsg: "Status code: \(String(describing: statusCode))")
+                    completion(nil, errorData)
                     return
                 }
             }else {
-                ErrorManager.displayError(errorTitle: "Generic Error", errorMsg: "Status code unknown", presenting: self.controllerDelegate)
+                let errorData = ErrorData(errorTitle: "Generic Error", errorMsg: "Status code unknown")
+                completion(nil, errorData)
                 return
             }
             // data checking
             guard let data = data else {
-                ErrorManager.displayError(errorTitle: "Generic Error", errorMsg: "Error receiving data", presenting: self.controllerDelegate)
+                let errorData = ErrorData(errorTitle: "Generic Error", errorMsg: "Error receiving data")
+                completion(nil, errorData)
                 return
             }
                 
         if let jsonHandlerClosure = jsonHandler {
             jsonHandlerClosure(data, self.controllerDelegate, completion)
         }else {
-            ErrorManager.displayError(errorTitle: Constants.Errors.jsonHandlerErrorTitle, errorMsg: Constants.Errors.jsonHandlerErrorMsg, presenting: self.controllerDelegate)
+            let errorData = ErrorData(errorTitle: Constants.Errors.jsonHandlerErrorTitle, errorMsg: Constants.Errors.jsonHandlerErrorMsg)
+                completion(nil, errorData)
             return
         }
         

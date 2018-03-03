@@ -10,6 +10,7 @@ import Foundation
 
 protocol EarthquakeModel: class {
     func updateUIWithEarthquakeData(earthquakes: [EarthquakeData])
+    func displayError(errorData: ErrorData)
 }
 
 struct EarthquakeData {
@@ -40,8 +41,14 @@ class EarthquakeViewModel {
         if let delegate = delegate {
             let client = Client(controllerDelegate: delegate, urlRequestData: requestData)
             
-            client.fetchJsonData(request: requestData, jsonHandler: Parser.parseJson, completion: { earthquakeDictionaryArray in
+            client.fetchJsonData(request: requestData, jsonHandler: Parser.parseJson, completion: { earthquakeDictionaryArray, errorData  in
+                
+                if let error = errorData {
+                    self.delegate?.displayError(errorData: error)
+                    return
+                }
                 self.earthquakeDataArray = self.formatEarthquakeData(data: earthquakeDictionaryArray)
+
             })
         }else {
             fatalError("Main view controller not set as delegate !!!")

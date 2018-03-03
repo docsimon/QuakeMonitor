@@ -81,4 +81,8 @@ extension EarthquakeViewController {
             self.stopRefreshing()
         }
     }
+    
+    func displayError(errorData: ErrorData){
+        ErrorManager.displayError(errorTitle: errorData.errorTitle, errorMsg: errorData.errorMsg, presenting: self)
+    }
 }

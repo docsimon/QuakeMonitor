@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias JsonHandlerClosure = (Data, EarthquakeModel, EarthquakeClosure?) -> ()
+typealias JsonHandlerClosure = (Data, EarthquakeModel, @escaping EarthquakeClosure) -> ()
 
 struct Features: Codable {
     let features: [Properties]
@@ -26,19 +26,21 @@ struct Earthquake: Codable {
 }
 
 class Parser {
-   static func parseJson(data: Data, delegate: EarthquakeModel, completion: EarthquakeClosure?){
+   static func parseJson(data: Data, delegate: EarthquakeModel, completion: @escaping EarthquakeClosure){
         let jsonDecoder = JSONDecoder()
         var features: Features? = nil
         do {
             features = try jsonDecoder.decode(Features.self, from: data)
         }catch {
-            ErrorManager.displayError(errorTitle: Constants.Errors.errorDataTitle, errorMsg: Constants.Errors.errorParsingData, presenting: delegate)
+            let errorData = ErrorData(errorTitle: Constants.Errors.errorDataTitle, errorMsg: Constants.Errors.errorParsingData)
+            completion(nil, errorData)
             return
         }
-        if let properties = features?.features, let completionClosure = completion {
-            completionClosure(properties)
+        if let properties = features?.features {
+            completion(properties, nil)
         }else{
-            ErrorManager.displayError(errorTitle: Constants.Errors.errorDataTitle, errorMsg: Constants.Errors.errorParsingData, presenting: delegate)
+            let errorData = ErrorData(errorTitle: Constants.Errors.errorDataTitle, errorMsg: Constants.Errors.errorParsingData)
+            completion(nil, errorData)
             return
         }
     }
