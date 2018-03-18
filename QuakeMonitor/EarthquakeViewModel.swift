@@ -13,14 +13,6 @@ protocol EarthquakeModel: class {
     func displayError(errorData: ErrorData)
 }
 
-struct EarthquakeData {
-    let magnitude: String
-    let country: String
-    let place: String
-    let date: String
-    let url: URL?
-}
-
 class EarthquakeViewModel {
     weak var delegate: EarthquakeModel?
     var earthquakeDataArray: [EarthquakeData]? {
@@ -38,7 +30,7 @@ class EarthquakeViewModel {
         queryItems.append(URLQueryItem(name: "limit", value: "20"))
         let requestData = RequestData(scheme: Constants.Client.scheme, baseUrl: Constants.Client.baseUrl, path: Constants.Client.path, queryItems: queryItems)
         
-        if let delegate = delegate {
+        if let _ = delegate {
             let client = Client(urlRequestData: requestData)
             
             client.fetchJsonData(request: requestData, jsonHandler: Parser.parseJson, completion: { earthquakeDictionaryArray, errorData  in

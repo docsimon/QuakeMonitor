@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA2A1AEA205E8862006E4631 /* EarthquakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A1AE9205E8862006E4631 /* EarthquakeData.swift */; };
 		CA3D5F122039E0750035ACD9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D5F112039E0750035ACD9 /* AppDelegate.swift */; };
 		CA3D5F142039E0750035ACD9 /* EarthquakeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D5F132039E0750035ACD9 /* EarthquakeViewController.swift */; };
 		CA3D5F172039E0750035ACD9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA3D5F152039E0750035ACD9 /* Main.storyboard */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CA2A1AE9205E8862006E4631 /* EarthquakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeData.swift; sourceTree = "<group>"; };
 		CA3D5F0E2039E0750035ACD9 /* QuakeMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuakeMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3D5F112039E0750035ACD9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA3D5F132039E0750035ACD9 /* EarthquakeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthquakeViewController.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				CA3D5F112039E0750035ACD9 /* AppDelegate.swift */,
 				CA3D5F132039E0750035ACD9 /* EarthquakeViewController.swift */,
 				CA3D5F36203A0E4F0035ACD9 /* EarthquakeViewModel.swift */,
+				CA2A1AE9205E8862006E4631 /* EarthquakeData.swift */,
 				CA3D5F1D2039E0750035ACD9 /* Info.plist */,
 				CA3D5F31203A0CB60035ACD9 /* Supporting files */,
 				CA3D5F32203A0CDD0035ACD9 /* Client.swift */,
@@ -230,6 +233,7 @@
 			files = (
 				CA3D5F142039E0750035ACD9 /* EarthquakeViewController.swift in Sources */,
 				CA3D5F122039E0750035ACD9 /* AppDelegate.swift in Sources */,
+				CA2A1AEA205E8862006E4631 /* EarthquakeData.swift in Sources */,
 				CA3D5F3B203A2AA40035ACD9 /* ErrorManager.swift in Sources */,
 				CA3D5F39203A28C60035ACD9 /* Parser.swift in Sources */,
 				CA3D5F33203A0CDD0035ACD9 /* Client.swift in Sources */,
