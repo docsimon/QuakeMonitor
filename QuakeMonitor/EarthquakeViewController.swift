@@ -11,7 +11,8 @@ import UIKit
 class EarthquakeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, EarthquakeModel {
     
     @IBOutlet weak var tableView: UITableView!
-    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    var errorManager = ErrorManager()
     var earthquakeData: [EarthquakeData]?
     private let refreshControl = UIRefreshControl()
     let viewModel = EarthquakeViewModel()
@@ -19,17 +20,21 @@ class EarthquakeViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
+        errorManager.delegate = self
         viewModel.fetchData()
+        activityIndicator.hidesWhenStopped = true
         tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshEarthquakeData), for: .valueChanged)
 
     }
     
     @objc func refreshEarthquakeData(){
+        activityIndicator.stopAnimating()
         viewModel.fetchData()
     }
     func stopRefreshing(){
         refreshControl.endRefreshing()
+        activityIndicator.stopAnimating()
     }
 }
 
@@ -65,14 +70,14 @@ extension EarthquakeViewController {
             if let quakeUrl = earthquake.url {
                 UIApplication.shared.open(quakeUrl, options: [:], completionHandler: nil)
             }else {
-                ErrorManager.displayError(errorTitle: Constants.Errors.urlPageErrorTitle, errorMsg: Constants.Errors.urlPageErrorTitle, presenting: self)
+                errorManager.displayError(errorTitle: Constants.Errors.urlPageErrorTitle, errorMsg: Constants.Errors.urlPageErrorTitle)
                 return
             }
         }
     }
     
 }
-// Conforming to the ViewModel protocol
+// MARK: Conforming to the ViewModel protocol
 extension EarthquakeViewController {
     func updateUIWithEarthquakeData(earthquakes: [EarthquakeData]){
         earthquakeData = earthquakes
@@ -83,6 +88,19 @@ extension EarthquakeViewController {
     }
     
     func displayError(errorData: ErrorData){
-        ErrorManager.displayError(errorTitle: errorData.errorTitle, errorMsg: errorData.errorMsg, presenting: self)
+        errorManager.displayError(errorTitle: errorData.errorTitle, errorMsg: errorData.errorMsg)
+    }
+}
+
+// MARK: Conforming to the ErrorControllerProtocol
+extension EarthquakeViewController: ErrorControllerProtocol {
+    func dismissActivityControl(){
+        activityIndicator.stopAnimating()
+    }
+    func presentError(alertController: UIAlertController){
+        present(alertController, animated: true)
+    }
+    func fetchData(){
+        refreshEarthquakeData()
     }
 }

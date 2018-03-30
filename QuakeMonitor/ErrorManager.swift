@@ -9,20 +9,28 @@
 import Foundation
 import UIKit
 
-struct ErrorData{
-    let errorTitle: String
-    let errorMsg: String
+protocol ErrorControllerProtocol {
+    func dismissActivityControl()
+    func presentError(alertController: UIAlertController)
+    func fetchData()
 }
 
 struct ErrorManager {
     
-   static func displayError<T>(errorTitle: String, errorMsg: String?, presenting: T? ){
+    var delegate: ErrorControllerProtocol?
+    
+    func displayError(errorTitle: String, errorMsg: String?){
         let alert = UIAlertController(title: errorTitle, message: errorMsg, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        alert.addAction(UIAlertAction(title: Constants.UIViews.ErrorView.dismissButton, style: UIAlertActionStyle.cancel, handler: {UIAlertAction in
+            self.delegate?.dismissActivityControl()
+        } ))
+        alert.addAction(UIAlertAction(title: Constants.UIViews.ErrorView.reloadButton, style: UIAlertActionStyle.default, handler: {UIAlertAction in
+            self.delegate?.fetchData()
+        } ))
         
         DispatchQueue.main.async {
-            (presenting as? UIViewController)?.present(alert, animated: true)
+            self.delegate?.presentError(alertController: alert)
         }
     }
-    
 }
+

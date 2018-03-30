@@ -15,3 +15,8 @@ struct EarthquakeData {
     let date: String
     let url: URL?
 }
+
+struct ErrorData{
+    let errorTitle: String
+    let errorMsg: String
+}
